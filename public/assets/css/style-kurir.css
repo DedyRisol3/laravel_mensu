@@ -1,0 +1,139 @@
+/* ===== GLOBAL STYLES & VARIABLES (KURIR) ===== */
+:root {
+    --primary-color: #1a1a1a;
+    --secondary-color: #c0a062;
+    --courier-theme-color: #007bff; /* Warna tema kurir (Biru) */
+    --background-color: #f8f9fa;
+    --sidebar-bg: #ffffff;
+    --text-color: #333333;
+    --border-color: #dee2e6;
+    --font-primary: 'Montserrat', sans-serif;
+    --font-secondary: 'Playfair Display', serif;
+}
+
+body {
+    background-color: var(--background-color);
+    font-family: var(--font-primary);
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+}
+
+/* ====== HALAMAN LOGIN KURIR (Mirip auth.css) ===== */
+.kurir-login-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.auth-card {
+    background-color: white;
+    padding: 40px 50px;
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 420px;
+    box-sizing: border-box;
+}
+.auth-header { text-align: center; margin-bottom: 30px; }
+.auth-card h2 {
+    font-family: var(--font-secondary);
+    text-align: center;
+    margin: 0 0 10px 0;
+    font-size: 2.2em;
+    color: var(--courier-theme-color); /* Warna tema kurir */
+}
+.auth-card .subtitle { text-align: center; margin: 0 0 30px 0; color: #777; }
+.input-group { margin-bottom: 20px; }
+.input-group label { display: block; margin-bottom: 8px; font-weight: 600; }
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+.auth-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--courier-theme-color); /* Warna tema kurir */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* ====== HALAMAN DASBOR KURIR (Mirip dashboard.css) ===== */
+.kurir-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 260px;
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+    padding: 25px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-header h1 {
+    font-family: var(--font-secondary);
+    font-size: 1.5em;
+    color: var(--courier-theme-color); /* Warna tema kurir */
+    margin: 0 0 40px 0;
+    text-align: center;
+}
+
+.sidebar-nav ul { list-style: none; padding: 0; margin: 0; }
+.sidebar-nav li a {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    text-decoration: none;
+    color: #555;
+    font-weight: 600;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+.sidebar-nav li a:hover,
+.sidebar-nav li a.active {
+    background-color: var(--courier-theme-color); /* Warna tema kurir */
+    color: white;
+}
+.sidebar-nav .nav-icon { margin-right: 15px; }
+
+.main-content {
+    flex-grow: 1;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.content-header h1 { font-family: var(--font-secondary); margin: 0; }
+.user-profile { display: flex; align-items: center; gap: 15px; }
+#logoutBtn { text-decoration: none; font-weight: 600; color: #dc3545; }
+
+/* Kartu & Tabel */
+.card {
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table th, .data-table td { padding: 15px; text-align: left; border-bottom: 1px solid var(--border-color); }
+.data-table thead th { background-color: #f1f3f5; }
+.action-buttons a { text-decoration: none; padding: 6px 12px; border-radius: 6px; color: white; background-color: var(--courier-theme-color); }

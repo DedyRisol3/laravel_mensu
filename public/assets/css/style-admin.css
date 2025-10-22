@@ -1,0 +1,311 @@
+/* ===== GLOBAL STYLES & VARIABLES (ADMIN) ===== */
+:root {
+    --primary-color: #1a1a1a;
+    --secondary-color: #c0a062; /* Emas/Khaki */
+    --accent-color-blue: #007bff;
+    --accent-color-green: #28c76f;
+    --background-color: #f8f9fa;
+    --sidebar-bg: #212529; /* Sidebar admin lebih gelap */
+    --sidebar-text-color: #adb5bd;
+    --sidebar-text-hover: #ffffff;
+    --text-color: #333333;
+    --border-color: #dee2e6;
+    --font-primary: 'Montserrat', sans-serif;
+    --font-secondary: 'Playfair Display', serif;
+}
+
+body {
+    background-color: var(--background-color);
+    font-family: var(--font-primary);
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+}
+
+/* ====== MAIN ADMIN LAYOUT ===== */
+.admin-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ====== SIDEBAR STYLING ===== */
+.sidebar {
+    width: 260px;
+    background-color: var(--sidebar-bg);
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    box-sizing: border-box;
+}
+
+.sidebar-header .logo {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.1em;
+    color: white;
+    text-decoration: none;
+    margin-bottom: 40px;
+}
+
+.sidebar-header .icon-logo {
+    color: var(--secondary-color);
+    margin-right: 10px;
+    font-size: 1.5em;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-nav li a {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    text-decoration: none;
+    color: var(--sidebar-text-color);
+    font-weight: 600;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar-nav li a:hover,
+.sidebar-nav li a.active {
+    background-color: var(--primary-color);
+    color: var(--sidebar-text-hover);
+}
+
+.sidebar-nav .nav-icon {
+    margin-right: 15px;
+    font-size: 1.4em;
+}
+
+/* ====== MAIN CONTENT STYLING ===== */
+.main-content {
+    flex-grow: 1;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+.content-header {
+    margin-bottom: 30px;
+}
+
+.content-header h1 {
+    font-family: var(--font-secondary);
+    font-size: 2.5em;
+    margin: 0;
+}
+
+/* ====== STAT CARDS ===== */
+.stat-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.stat-card .icon-container {
+    padding: 15px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.stat-card .icon-container .material-symbols-outlined { font-size: 2em; color: white; }
+.bg-blue { background-color: var(--accent-color-blue); }
+.bg-green { background-color: var(--accent-color-green); }
+.bg-gold { background-color: var(--secondary-color); }
+
+
+.stat-card .info h4 {
+    margin: 0 0 5px 0;
+    font-size: 1.5em;
+}
+
+.stat-card .info p {
+    margin: 0;
+    color: #6c757d;
+}
+
+/* ====== DATA TABLES (reusable from dashboard) ===== */
+.card {
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+}
+.card h3 {
+    margin: 0 0 15px 0;
+    font-size: 1.2em;
+}
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.data-table th, .data-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+.data-table thead th {
+    background-color: #f1f3f5;
+    font-size: 0.9em;
+    text-transform: uppercase;
+}
+
+/* ====== Tombol Aksi di Tabel ===== */
+.action-buttons a {
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin-right: 5px;
+    font-size: 0.9em;
+    font-weight: 600;
+    color: white;
+    transition: opacity 0.3s;
+}
+
+.btn-edit { background-color: var(--accent-color-blue); }
+.btn-delete { background-color: #dc3545; } /* Warna merah untuk hapus */
+
+.action-buttons a:hover {
+    opacity: 0.8;
+}
+
+/* ====== Style untuk Dropdown Status di Tabel ===== */
+.status-select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    font-family: var(--font-primary);
+    font-weight: 600;
+    width: 150px; /* Lebar dropdown */
+}
+
+/* ====== HALAMAN LAPORAN ===== */
+
+.report-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.summary-card {
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+}
+
+.summary-card p {
+    margin: 0;
+    color: #6c757d;
+    font-size: 0.9em;
+    text-transform: uppercase;
+}
+
+.summary-card h3 {
+    margin: 5px 0 0 0;
+    font-size: 2em;
+    color: var(--primary-color);
+}
+
+/* Styling untuk Chart Simulasi */
+.chart-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+}
+
+.chart-title {
+    margin: 0 0 30px 0;
+    font-size: 1.3em;
+}
+
+.chart {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end; /* Batang chart mulai dari bawah */
+    height: 300px;
+    border-left: 2px solid #eee;
+    border-bottom: 2px solid #eee;
+    padding: 10px;
+}
+
+.chart-bar-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px;
+}
+
+.chart-bar {
+    width: 50px;
+    background-color: var(--accent-color-blue);
+    border-radius: 5px 5px 0 0;
+    transition: height 0.5s ease-out;
+}
+
+.chart-label {
+    margin-top: 10px;
+    font-weight: 600;
+    font-size: 0.9em;
+}
+
+/* ====== FORM MANAJEMEN LAYANAN ===== */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px 30px;
+}
+.input-group.full-width {
+    grid-column: 1 / -1; /* Ambil 1 baris penuh */
+}
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+.input-group input,
+.input-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1em;
+    font-family: var(--font-primary);
+    box-sizing: border-box;
+}
+.input-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+.btn-save {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.btn-delete {
+     background-color: #dc3545;
+}

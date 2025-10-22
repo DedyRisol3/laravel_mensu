@@ -1,0 +1,123 @@
+/* Styling untuk Halaman Input Ukuran */
+:root {
+    --primary-color: #1a1a1a;
+    --secondary-color: #c0a062;
+    --background-color: #f8f9fa;
+    --text-color: #333333;
+    --border-color: #dee2e6;
+    --font-primary: 'Montserrat', sans-serif;
+    --font-secondary: 'Playfair Display', serif;
+}
+
+body {
+    background-color: var(--background-color);
+    font-family: var(--font-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+    box-sizing: border-box;
+}
+
+.ukuran-container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.07);
+    width: 100%;
+    max-width: 900px;
+}
+
+.ukuran-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.ukuran-header h1 {
+    font-family: var(--font-secondary);
+    font-size: 2.5em;
+    margin: 0 0 10px 0;
+}
+
+.ukuran-guide {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.ukuran-guide img {
+    max-width: 300px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.ukuran-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 40px; /* Jarak vertikal dan horizontal */
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+.input-field {
+    display: flex;
+    align-items: center;
+}
+
+.input-field input {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1em;
+    -moz-appearance: textfield; /* Sembunyikan panah di Firefox */
+}
+/* Sembunyikan panah di Chrome, Safari, Edge */
+.input-field input::-webkit-outer-spin-button,
+.input-field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+.input-field span {
+    margin-left: 10px;
+    font-weight: 600;
+    color: #888;
+}
+
+.form-actions {
+    text-align: center;
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.btn {
+    text-decoration: none;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.btn-primary { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
+.btn-secondary { background-color: #6c757d; color: white; border-color: #6c757d; }
+
+
+@media (max-width: 600px) {
+    .ukuran-form-grid {
+        grid-template-columns: 1fr; /* Satu kolom di layar kecil */
+    }
+}
