@@ -32,12 +32,12 @@ class OrderController extends Controller
         return view('pelanggan.order.create', compact('product'));
     }
 
-    /**
-     * Menyimpan data pesanan dan ukuran (langkah 2 pemesanan).
-     */
+// app/Http/Controllers/Pelanggan/OrderController.php
+
+    
     public function store(Request $request)
     {
-        // 1. Validasi semua input dari form ukuran
+        // 1. Validasi
         $validated = $request->validate([
             'product_id' => 'required|exists:products,id',
             'lingkar_badan' => 'required|numeric',
@@ -52,44 +52,39 @@ class OrderController extends Controller
 
         $product = Product::findOrFail($validated['product_id']);
         $user = Auth::user();
-        
-        // 2. Gunakan DB Transaction untuk memastikan semua data tersimpan
+
+        // 2. Gunakan DB Transaction closure untuk otomatis commit/rollback
         try {
-            DB::beginTransaction();
+            $order = DB::transaction(function () use ($validated, $product, $user) {
+                // Buat entri Order dengan mass assignment
+                $order = Order::create([
+                    'user_id' => $user->id,
+                    'product_id' => $product->id,
+                    // order_code menggunakan uniqid + time untuk mengurangi collision
+                    'order_code' => 'MNS-' . strtoupper(uniqid((string) time())),
+                    'total_harga' => $product->harga,
+                    'status' => 'Menunggu Pembayaran',
+                ]);
 
-            // 3. Buat entri Order
-            $order = new Order();
-            $order->user_id = $user->id;
-            $order->product_id = $product->id;
-            $order->order_code = 'MNS-' . strtoupper(uniqid()); // Buat Order Code unik
-            $order->total_harga = $product->harga;
-            $order->status = 'Menunggu Pembayaran'; // Status Awal
-            $order->save();
+                // Simpan pengukuran terkait (hanya field yang ada di $validated)
+                $order->measurement()->create($validated);
 
-            // 4. Buat entri OrderMeasurement
-            $measurement = new OrderMeasurement();
-            $measurement->order_id = $order->id;
-            $measurement->fill($validated); // Isi semua data ukuran
-            $measurement->save();
+                // Buat entri Payment via mass assignment
+                $order->payment()->create([
+                    'jumlah' => $product->harga,
+                    'status' => 'pending',
+                ]);
 
-            // 5. Buat entri Payment (untuk Midtrans nanti)
-            $payment = new Payment();
-            $payment->order_id = $order->id;
-            $payment->jumlah = $product->harga;
-            $payment->status = 'pending';
-            $payment->save();
+                return $order;
+            });
 
-            DB::commit(); // Simpan semua data jika berhasil
-
-            // 6. Arahkan ke halaman pembayaran (Tahap 7)
-            // Untuk saat ini, kita arahkan ke dasbor pelanggan
+            // Arahkan ke halaman pembayaran
             return redirect()->route('pelanggan.payment.show', $order->id)
-            ->with('success', 'Pesanan berhasil dibuat! Silakan lanjutkan pembayaran.');
-        } catch (\Exception $e) {            
-            // return redirect()->route('pelanggan.payment.show', $order->id);
+                ->with('success', 'Pesanan berhasil dibuat! Silakan lanjutkan pembayaran.');
 
         } catch (\Exception $e) {
-            DB::rollBack(); // Batalkan semua jika ada error
+            // Log error untuk debugging (butuh use Illuminate\Support\Facades\Log jika ingin lebih)
+            report($e);
             return redirect()->back()->with('error', 'Terjadi kesalahan saat membuat pesanan: ' . $e->getMessage());
         }
     }

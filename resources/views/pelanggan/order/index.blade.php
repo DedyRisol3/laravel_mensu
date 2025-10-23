@@ -1,98 +1,70 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pesanan Saya - Project Jahit Jas</title>
-    <link rel="stylesheet" href="../assets/css/style-dashboard.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-</head>
-<body>
+<x-app-layout>
+    {{-- Slot Header --}}
+    <x-slot name="header">
+        <div class="flex justify-between items-center">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Pesanan Saya') }}
+            </h2>
+            {{-- Tombol Buat Pesanan Baru --}}
+            <a href="{{ route('layanan.index') }}"
+               class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-800 focus:outline-none focus:border-indigo-900 focus:ring ring-indigo-300 disabled:opacity-25 transition ease-in-out duration-150">
+                Buat Pesanan Baru
+            </a>
+        </div>
+    </x-slot>
 
-    <div class="dashboard-container">
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <a href="../index.html" class="logo">
-                    <span class="material-symbols-outlined icon-logo">content_cut</span>
-                    <h1>PROJECT JAHIT JAS</h1>
-                </a>
+    {{-- Konten Utama Halaman --}}
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+
+                    <h3 class="text-lg font-semibold mb-4">Daftar Semua Pesanan</h3>
+
+                    {{-- Tabel Pesanan --}}
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-gray-100 border-b">
+                                <tr>
+                                    <th class="px-4 py-3 text-sm font-medium text-gray-700 uppercase">ID Pesanan</th>
+                                    <th class="px-4 py-3 text-sm font-medium text-gray-700 uppercase">Produk</th>
+                                    <th class="px-4 py-3 text-sm font-medium text-gray-700 uppercase">Tanggal Pesan</th>
+                                    <th class="px-4 py-3 text-sm font-medium text-gray-700 uppercase text-right">Total Harga</th>
+                                    <th class="px-4 py-3 text-sm font-medium text-gray-700 uppercase">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($semuaPesanan as $order)
+                                    <tr class="border-b hover:bg-gray-50">
+                                        <td class="px-4 py-3">{{ $order->order_code }}</td>
+                                        <td class="px-4 py-3">{{ $order->product->nama }}</td>
+                                        <td class="px-4 py-3">{{ $order->created_at->format('d M Y') }}</td>
+                                        <td class="px-4 py-3 text-right">Rp {{ number_format($order->total_harga, 0, ',', '.') }}</td>
+                                        <td class="px-4 py-3">
+                                            {{-- Styling status dinamis --}}
+                                            <span class="px-3 py-1 text-xs font-medium rounded-full
+                                                @if($order->status == 'Selesai' || $order->status == 'Diterima Pelanggan') bg-green-100 text-green-800
+                                                @elseif($order->status == 'Menunggu Pembayaran' || $order->status == 'pending') bg-yellow-100 text-yellow-800
+                                                @elseif($order->status == 'Dibatalkan' || $order->status == 'failed') bg-red-100 text-red-800
+                                                @else bg-blue-100 text-blue-800 @endif">
+                                                {{ $order->status }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="text-center py-4 text-gray-500">Anda belum memiliki pesanan.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                     {{-- Paginasi jika perlu --}}
+                     {{-- <div class="mt-4">
+                        {{ $semuaPesanan->links() }}
+                    </div> --}}
+                </div>
             </div>
-            <nav class="sidebar-nav">
-    <ul>
-        <li><a href="dashboard.html"><span class="material-symbols-outlined nav-icon">dashboard</span>Dasbor</a></li>
-        <li><a href="pesanan.html"><span class="material-symbols-outlined nav-icon">receipt_long</span>Pesanan Saya</a></li>
-        <li><a href="pembayaran.html"><span class="material-symbols-outlined nav-icon">payment</span>Riwayat Pembayaran</a></li>
-        <li><a href="profil.html"><span class="material-symbols-outlined nav-icon">person</span>Profil Saya</a></li>
-    </ul>
-</nav>
-            <div class="sidebar-footer">
-                 <a href="../kontak.html"><span class="material-symbols-outlined nav-icon">help</span>Bantuan</a>
-            </div>
-        </aside>
-
-        <main class="main-content">
-            <header class="content-header">
-                <h1>Pesanan Saya</h1>
-                <a href="../layanan.html" class="btn">Buat Pesanan Baru</a>
-            </header>
-
-            <section class="card">
-                <h3>Daftar Semua Pesanan</h3>
-                <table class="orders-table">
-                    <thead>
-                        <tr>
-                            <th>ID Pesanan</th>
-                            <th>Produk</th>
-                            <th>Tanggal Pesan</th>
-                            <th>Total Harga</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>#PJ20251001</td>
-                            <td>Wedding Premier Suit</td>
-                            <td>01 Okt 2025</td>
-                            <td>Rp 4.500.000</td>
-                            <td><span class="order-status status-process">Fitting</span></td>
-                        </tr>
-                        <tr>
-                            <td>#PJ20250915</td>
-                            <td>Business Essential Suit</td>
-                            <td>15 Sep 2025</td>
-                            <td>Rp 2.500.000</td>
-                            <td><span class="order-status status-completed">Selesai</span></td>
-                        </tr>
-                        <tr>
-                            <td>#PJ20250820</td>
-                            <td>Custom Casual Blazer</td>
-                            <td>20 Agu 2025</td>
-                            <td>Rp 1.800.000</td>
-                             <td><span class="order-status status-sewing">Proses Jahit</span></td>
-                        </tr>
-                        <tr>
-                            <td>#PJ20250705</td>
-                            <td>Business Essential Suit</td>
-                            <td>05 Jul 2025</td>
-                            <td>Rp 2.500.000</td>
-                            <td><span class="order-status status-cancelled">Dibatalkan</span></td>
-                        </tr>
-                         <tr>
-                            <td>#PJ20250610</td>
-                            <td>Wedding Premier Suit</td>
-                            <td>10 Jun 2025</td>
-                            <td>Rp 4.000.000</td>
-                            <td><span class="order-status status-completed">Selesai</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-        </main>
+        </div>
     </div>
-
-    <script src="../assets/js/dashboard.js"></script>
-</body>
-</html>
+</x-app-layout>

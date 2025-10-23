@@ -1,90 +1,90 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dasbor Pelanggan - Project Jahit Jas</title>
-    <link rel="stylesheet" href="../assets/css/style-dashboard.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-</head>
-<body>
+<x-app-layout>
+    {{-- Slot Header --}}
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Dasbor Pelanggan') }}
+        </h2>
+    </x-slot>
 
-    <div class="dashboard-container">
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <a href="../index.html" class="logo">
-                    <span class="material-symbols-outlined icon-logo">content_cut</span>
-                    <h1>PROJECT JAHIT JAS</h1>
-                </a>
-            </div>
-            <nav class="sidebar-nav">
-    <ul>
-        <li><a href="dashboard.html"><span class="material-symbols-outlined nav-icon">dashboard</span>Dasbor</a></li>
-        <li><a href="pesanan.html"><span class="material-symbols-outlined nav-icon">receipt_long</span>Pesanan Saya</a></li>
-        <li><a href="pembayaran.html"><span class="material-symbols-outlined nav-icon">payment</span>Riwayat Pembayaran</a></li>
-        <li><a href="profil.html"><span class="material-symbols-outlined nav-icon">person</span>Profil Saya</a></li>
-    </ul>
-</nav>
-            <div class="sidebar-footer">
-                 <a href="../kontak.html"><span class="material-symbols-outlined nav-icon">help</span>Bantuan</a>
-            </div>
-        </aside>
+    {{-- Konten Utama Halaman --}}
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
-        <main class="main-content">
-            <header class="content-header">
-                <h1 id="welcomeUserName">Selamat Datang!</h1>
-                <div class="user-profile">
-                    <span id="userName">Nama Pengguna</span>
-                    <a href="#" id="logoutBtn">
-                        <span class="material-symbols-outlined">logout</span>Keluar
+             {{-- Pesan Sukses (misalnya setelah membuat pesanan) --}}
+            @if (session('success'))
+                <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                    <span class="block sm:inline">{{ session('success') }}</span>
+                </div>
+            @endif
+
+            {{-- Kartu Ringkasan --}}
+            {{-- REFAKTOR: Ganti kelas CSS lama dengan Tailwind --}}
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                {{-- Kartu Total Pesanan --}}
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-lg font-medium text-gray-700 mb-2">Total Pesanan</h3>
+                    {{-- Ganti data statis dengan variabel Blade --}}
+                    <p class="text-3xl font-bold">{{ $totalPesanan ?? 0 }}</p>
+                    {{-- <small>X Pesanan dalam proses.</small> --}} {{-- Anda bisa tambahkan logic ini jika perlu --}}
+                </div>
+                {{-- Kartu Status Akun --}}
+                <div class="bg-white p-6 rounded-lg shadow">
+                     <h3 class="text-lg font-medium text-gray-700 mb-2">Status Akun</h3>
+                    <p class="text-3xl font-bold text-green-600">Aktif</p>
+                    {{-- Tampilkan tanggal bergabung jika ada --}}
+                    <small>Pelanggan sejak: {{ Auth::user()->created_at->format('d M Y') }}</small>
+                </div>
+                {{-- Kartu Bantuan --}}
+                 <div class="bg-white p-6 rounded-lg shadow">
+                     <h3 class="text-lg font-medium text-gray-700 mb-2">Butuh Bantuan?</h3>
+                    <p class="text-gray-600 mb-3">Tim kami siap membantu Anda.</p>
+                    {{-- Gunakan route helper dan styling Tailwind/Breeze --}}
+                    <a href="{{ route('kontak') }}"
+                       class="inline-flex items-center px-4 py-2 bg-yellow-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-yellow-700 active:bg-yellow-800 focus:outline-none focus:border-yellow-900 focus:ring ring-yellow-300 disabled:opacity-25 transition ease-in-out duration-150">
+                        Hubungi Kami
                     </a>
                 </div>
-            </header>
-
-            <section class="dashboard-grid">
-                <div class="card">
-                    <h3>Total Pesanan</h3>
-                    <p style="font-size: 2em; font-weight: bold;">3</p>
-                    <small>1 Pesanan dalam proses.</small>
-                </div>
-                <div class="card">
-                    <h3>Status Akun</h3>
-                    <p style="font-size: 2em; font-weight: bold; color: #28c76f;">Aktif</p>
-                    <small>Pelanggan sejak: 15 Okt 2025</small>
-                </div>
-                <div class="card">
-                    <h3>Butuh Bantuan?</h3>
-                    <p>Tim kami siap membantu Anda.</p>
-                    <a href="../kontak.html" class="btn btn-primary" style="background-color:#c0a062; border-color:#c0a062; color:white;">Hubungi Kami</a>
-                </div>
-            </section>
-            
-            <section class="card" style="margin-top: 25px;">
-                <h3>Pesanan Terbaru</h3>
-                <div class="order-list">
-                    <div class="order-item">
-                        <div>
-                            <strong>Wedding Premier Suit</strong><br>
-                            <small>ID Pesanan: #PJ20251001</small>
-                        </div>
-                        <span class="order-status status-process">Fitting</span>
-                    </div>
-                    <div class="order-item">
-                         <div>
-                            <strong>Business Essential Suit</strong><br>
-                            <small>ID Pesanan: #PJ20250915</small>
-                        </div>
-                        <span class="order-status status-completed">Selesai</span>
-                    </div>
-                </div>
             </section>
 
-        </main>
+            {{-- Daftar Pesanan Terbaru --}}
+            {{-- REFAKTOR: Ganti kelas CSS lama dengan Tailwind --}}
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                    <h3 class="text-lg font-semibold mb-4">Pesanan Terbaru</h3>
+                     {{-- Ganti div.order-list dengan ul atau div flex --}}
+                    <div class="space-y-4">
+                        @forelse ($pesananTerbaru as $order)
+                            {{-- Ganti div.order-item dengan flex container --}}
+                            <div class="flex justify-between items-center p-4 border rounded-md hover:bg-gray-50">
+                                <div>
+                                    <strong class="font-medium">{{ $order->product->nama }}</strong><br>
+                                    <small class="text-gray-500">ID Pesanan: {{ $order->order_code }}</small>
+                                </div>
+                                {{-- Styling status dinamis (contoh sederhana) --}}
+                                <span class="px-3 py-1 text-xs font-medium rounded-full
+                                    @if($order->status == 'Selesai' || $order->status == 'Diterima Pelanggan') bg-green-100 text-green-800
+                                    @elseif($order->status == 'Menunggu Pembayaran' || $order->status == 'pending') bg-yellow-100 text-yellow-800
+                                    @elseif($order->status == 'Dibatalkan' || $order->status == 'failed') bg-red-100 text-red-800
+                                    @else bg-blue-100 text-blue-800 @endif">
+                                    {{ $order->status }}
+                                </span>
+                            </div>
+                        @empty
+                             <p class="text-gray-500 text-center">Anda belum memiliki pesanan.</p>
+                        @endforelse
+                    </div>
+
+                    {{-- Link ke halaman Pesanan Saya --}}
+                    @if (isset($pesananTerbaru) && count($pesananTerbaru) > 0)
+                        <div class="mt-4 text-right">
+                             <a href="{{ route('pelanggan.orders.index') }}" class="text-sm text-indigo-600 hover:text-indigo-900">
+                                 Lihat Semua Pesanan &rarr;
+                             </a>
+                        </div>
+                    @endif
+                </div>
+            </div>
+
+        </div>
     </div>
-
-    <script src="../assets/js/dashboard.js"></script>
-</body>
-</html>
+</x-app-layout>

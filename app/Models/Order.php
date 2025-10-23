@@ -10,6 +10,17 @@ class Order extends Model
     use HasFactory;
 
     /**
+     * Allow mass assignment for these fields so controllers can use create()/update().
+     */
+    protected $fillable = [
+        'user_id',
+        'product_id',
+        'order_code',
+        'total_harga',
+        'status',
+    ];
+
+    /**
      * Pesanan ini milik satu User (Pelanggan).
      */
     public function user()

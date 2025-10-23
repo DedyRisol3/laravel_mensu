@@ -1,68 +1,95 @@
-@extends('layouts.admin')
+<x-app-layout>
+    {{-- Slot Header (Opsional, untuk judul halaman di top nav) --}}
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Admin Dasbor') }}
+        </h2>
+    </x-slot>
 
-@section('title', 'Admin Dasbor')
+    {{-- Konten Utama Halaman --}}
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
 
-@section('content')
-<header class="content-header">
-    <h1>Admin Dasbor</h1>
-    <p>Selamat datang! Berikut adalah ringkasan aktivitas bisnis Anda.</p>
-</header>
+                    {{-- MULAI Konten Dasbor Anda DI SINI --}}
 
-<section class="stat-cards-grid">
-    <div class="stat-card">
-        <div class="icon-container bg-blue">
-            <span class="material-symbols-outlined">receipt_long</span>
-        </div>
-        <div class="info">
-            <h4 id="totalPesanan">{{ $totalPesanan }}</h4>
-            <p>Total Pesanan</p>
+                    <header class="content-header mb-6"> {{-- Tambah margin bawah (Tailwind: mb-6) --}}
+                        <h1 class="text-2xl font-bold">Admin Dasbor</h1>
+                        <p>Selamat datang! Berikut adalah ringkasan aktivitas bisnis Anda.</p>
+                    </header>
+
+                    {{-- Kartu Statistik --}}
+                    {{-- REFAKTOR: Ganti kelas CSS lama dengan Tailwind --}}
+                    <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                        {{-- Kartu Total Pesanan --}}
+                        <div class="bg-blue-100 p-6 rounded-lg shadow flex items-center">
+                            <div class="bg-blue-500 p-3 rounded-full mr-4">
+                                <span class="material-symbols-outlined text-white">receipt_long</span>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl font-bold">{{ $totalPesanan }}</h4>
+                                <p class="text-gray-600">Total Pesanan</p>
+                            </div>
+                        </div>
+                        {{-- Kartu Total Pelanggan --}}
+                        <div class="bg-green-100 p-6 rounded-lg shadow flex items-center">
+                             <div class="bg-green-500 p-3 rounded-full mr-4">
+                                <span class="material-symbols-outlined text-white">group</span>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl font-bold">{{ $totalPelanggan }}</h4>
+                                <p class="text-gray-600">Total Pelanggan</p>
+                            </div>
+                        </div>
+                        {{-- Kartu Total Pendapatan --}}
+                         <div class="bg-yellow-100 p-6 rounded-lg shadow flex items-center">
+                             <div class="bg-yellow-500 p-3 rounded-full mr-4">
+                                <span class="material-symbols-outlined text-white">payments</span>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl font-bold">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</h4>
+                                <p class="text-gray-600">Total Pendapatan</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    {{-- Tabel Pesanan Terbaru --}}
+                    {{-- REFAKTOR: Ganti kelas CSS lama dengan Tailwind --}}
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-semibold mb-4">Pesanan Terbaru</h3>
+                        <div class="overflow-x-auto"> {{-- Agar tabel bisa scroll di layar kecil --}}
+                            <table class="w-full text-left">
+                                <thead class="bg-gray-50 border-b">
+                                    <tr>
+                                        <th class="px-4 py-2">ID Pesanan</th>
+                                        <th class="px-4 py-2">Pelanggan</th>
+                                        <th class="px-4 py-2">Tanggal</th>
+                                        <th class="px-4 py-2">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse($pesananTerbaru as $order)
+                                        <tr class="border-b hover:bg-gray-50">
+                                            <td class="px-4 py-2">{{ $order->order_code }}</td>
+                                            <td class="px-4 py-2">{{ $order->user->fullname }}</td>
+                                            <td class="px-4 py-2">{{ $order->created_at->format('d M Y') }}</td>
+                                            <td class="px-4 py-2">{{ $order->status }}</td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="4" class="text-center py-4">Belum ada pesanan.</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    {{-- AKHIR Konten Dasbor Anda DI SINI --}}
+
+                </div>
+            </div>
         </div>
     </div>
-    <div class="stat-card">
-        <div class="icon-container bg-green">
-            <span class="material-symbols-outlined">group</span>
-        </div>
-        <div class="info">
-            <h4 id="totalPelanggan">{{ $totalPelanggan }}</h4>
-            <p>Total Pelanggan</p>
-        </div>
-    </div>
-    <div class="stat-card">
-        <div class="icon-container bg-gold">
-            <span class="material-symbols-outlined">payments</span>
-        </div>
-        <div class="info">
-            <h4 id="pendapatanBulanIni">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</h4>
-            <p>Total Pendapatan</p>
-        </div>
-    </div>
-</section>
-
-<div class="card" style="margin-top: 30px;">
-    <h3>Pesanan Terbaru</h3>
-    <table class="data-table">
-        <thead>
-            <tr>
-                <th>ID Pesanan</th>
-                <th>Pelanggan</th>
-                <th>Tanggal</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody id="pesananTerbaruBody">
-            @forelse($pesananTerbaru as $order)
-                <tr>
-                    <td>{{ $order->order_code }}</td>
-                    <td>{{ $order->user->fullname }}</td>
-                    <td>{{ $order->created_at->format('d M Y') }}</td>
-                    <td>{{ $order->status }}</td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="4" style="text-align: center;">Belum ada pesanan.</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
-</div>
-@endsection
+</x-app-layout>
